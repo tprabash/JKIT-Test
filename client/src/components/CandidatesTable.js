@@ -3,37 +3,37 @@ import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper
 const CandidatesTable = ({ rows, selectedCandidate, deleteCandidate }) => {
     return (
         <TableContainer component={Paper} >
-            <Table>
+            <Table sx={{ borderCollapse: 'collapse', border: '1px solid #ddd' }}>
                 <TableHead>
                     <TableRow>
-                        <TableCell sx={{ textAlign: 'center' }}>ID</TableCell>
-                        <TableCell sx={{ textAlign: 'center' }}>First Name</TableCell>
-                        <TableCell sx={{ textAlign: 'center' }}>Last Name</TableCell>
-                        <TableCell sx={{ textAlign: 'center' }}>Email Address</TableCell>
-                        <TableCell sx={{ textAlign: 'center' }}>Date Of Birth</TableCell>
-                        <TableCell sx={{ textAlign: 'center' }}>Age</TableCell>
-                        <TableCell sx={{ textAlign: 'center' }}>Salary</TableCell>
-                        <TableCell sx={{ textAlign: 'center' }}>Department</TableCell>
-                        <TableCell sx={{ textAlign: 'center' }}>Department Code</TableCell>
-                        <TableCell sx={{ textAlign: 'center' }}>Action</TableCell>
+                        <TableCell sx={{ textAlign: 'center', borderCollapse: 'collapse', border: '1px solid #ddd' }}>ID</TableCell>
+                        <TableCell sx={{ textAlign: 'center', borderCollapse: 'collapse', border: '1px solid #ddd' }}>First Name</TableCell>
+                        <TableCell sx={{ textAlign: 'center', borderCollapse: 'collapse', border: '1px solid #ddd' }}>Last Name</TableCell>
+                        <TableCell sx={{ textAlign: 'center', borderCollapse: 'collapse', border: '1px solid #ddd' }}>Email Address</TableCell>
+                        <TableCell sx={{ textAlign: 'center', borderCollapse: 'collapse', border: '1px solid #ddd' }}>Date Of Birth</TableCell>
+                        <TableCell sx={{ textAlign: 'center', borderCollapse: 'collapse', border: '1px solid #ddd' }}>Age</TableCell>
+                        <TableCell sx={{ textAlign: 'center', borderCollapse: 'collapse', border: '1px solid #ddd' }}>Salary</TableCell>
+                        <TableCell sx={{ textAlign: 'center', borderCollapse: 'collapse', border: '1px solid #ddd' }}>Department</TableCell>
+                        <TableCell sx={{ textAlign: 'center', borderCollapse: 'collapse', border: '1px solid #ddd' }}>Department Code</TableCell>
+                        <TableCell sx={{ textAlign: 'center', borderCollapse: 'collapse', border: '1px solid #ddd' }}>Action</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
                     {
                         rows.length > 0 ? rows.map(row => (
                             <TableRow key={row.id}>
-                                <TableCell component='td' scope="row" sx={{ textAlign: 'center' }}>{row.id}</TableCell>
-                                <TableCell component='td' scope="row">{row.firstName}</TableCell>
-                                <TableCell component='td' scope="row">{row.lastName}</TableCell>
-                                <TableCell component='td' scope="row">{row.email}</TableCell>
-                                <TableCell component='td' scope="row">{row.dob}</TableCell>
-                                <TableCell component='td' scope="row">{row.age}</TableCell>
-                                <TableCell component='td' scope="row">{row.salary}</TableCell>
-                                <TableCell component='td' scope="row">{row.departmentName}</TableCell>
-                                <TableCell component='td' scope="row">{row.departmentCode}</TableCell>
+                                <TableCell component='td' scope="row" sx={{ textAlign: 'center' , borderCollapse: 'collapse', border: '1px solid #ddd'}}>{row.id}</TableCell>
+                                <TableCell component='td' scope="row" sx={{ textAlign: 'left' , borderCollapse: 'collapse', border: '1px solid #ddd'}}>{row.firstName}</TableCell>
+                                <TableCell component='td' scope="row" sx={{ textAlign: 'left' , borderCollapse: 'collapse', border: '1px solid #ddd'}}>{row.lastName}</TableCell>
+                                <TableCell component='td' scope="row" sx={{ textAlign: 'center' , borderCollapse: 'collapse', border: '1px solid #ddd'}}>{row.email}</TableCell>
+                                <TableCell component='td' scope="row" sx={{ textAlign: 'center' , borderCollapse: 'collapse', border: '1px solid #ddd'}}>{row.dob}</TableCell>
+                                <TableCell component='td' scope="row" sx={{ textAlign: 'center' , borderCollapse: 'collapse', border: '1px solid #ddd'}}>{row.age}</TableCell>
+                                <TableCell component='td' scope="row" sx={{ textAlign: 'center' , borderCollapse: 'collapse', border: '1px solid #ddd'}}>{row.salary}</TableCell>
+                                <TableCell component='td' scope="row" sx={{ textAlign: 'center' , borderCollapse: 'collapse', border: '1px solid #ddd'}}>{row.departmentName}</TableCell>
+                                <TableCell component='td' scope="row" sx={{ textAlign: 'center' , borderCollapse: 'collapse', border: '1px solid #ddd'}}>{row.departmentCode}</TableCell>
                                 <TableCell sx={{ display: 'none' }} component='td' scope="row">{row.departmentId}</TableCell>
-                                <TableCell>
-                                    <Button sx={{ margin: '0px 10px' }}
+                                <TableCell sx={{ textAlign: 'center' }}>
+                                    <Button sx={{ margin: '0px 10px', color: '#ffffff', backgroundColor: '#0d6efd' }}
                                         onClick={() => {
                                             selectedCandidate({
                                                 id: row.id,
@@ -43,14 +43,15 @@ const CandidatesTable = ({ rows, selectedCandidate, deleteCandidate }) => {
                                                 dob: row.dob,
                                                 age: row.age,
                                                 salary: row.salary,
+                                                departmentCode: row.departmentCode,
                                                 departmentId: row.departmentId,
-                                                departmentCode: row.departmentCode
+                                                departmentName: row.departmentName
                                             })
                                         }}
                                     >
                                         Edit
                                     </Button>
-                                    <Button sx={{ margin: '0px 10px' }}
+                                    <Button sx={{ margin: '0px 10px', color: '#ffffff', backgroundColor: '#dc3545' }}
                                         onClick={() => deleteCandidate(row.id)}
                                     >
                                         Delete
