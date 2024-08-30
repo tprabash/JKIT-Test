@@ -6,11 +6,19 @@ import { DatePicker as MUIDatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs from 'dayjs';
 import { TextField } from '@mui/material';
 
-export default function CustomDatePicker({ dob, setDob }) { 
-
+export default function CustomDatePicker({ dob, setDob, setAge }) {
     const handleDateChange = (newValue) => {
         setDob(newValue);
-        console.log('Selected Date:', newValue ? newValue.format('YYYY-MM-DD') : 'No date selected');
+        if (newValue) {
+            const today = dayjs();
+            const age = today.diff(newValue, 'year');
+            setAge(age);
+            console.log('Selected Date:', newValue.format('YYYY-MM-DD'));
+            console.log('Calculated Age:', age);
+        } else {
+            setAge('');
+            console.log('No date selected');
+        }
     };
 
     return (
@@ -20,7 +28,6 @@ export default function CustomDatePicker({ dob, setDob }) {
                     label="Date Of Birth"
                     value={dob ? dayjs(dob) : null}
                     onChange={handleDateChange}
-                    // onChange={(newValue) => setDob(newValue)}
                     renderInput={(params) => <TextField {...params} />}
                 />
             </DemoContainer>

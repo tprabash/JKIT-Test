@@ -2,8 +2,10 @@ import { Grid, Typography, TextField, Button } from '@mui/material';
 import { useState, useEffect } from 'react';
 import CustomDatePicker from './DatePicker';
 import DepartmentSelect from './Select';
+import Alert from '@mui/material/Alert';
+import Stack from '@mui/material/Stack';
 
-const CandidatesForm = ({ createCandidate,updateCandidate, selectedDepartmentId, setSelectedDepartmentId, data, isEdit }) => {
+const CandidatesForm = ({ createCandidate, updateCandidate, selectedDepartmentId, setSelectedDepartmentId, data, isEdit }) => {
     const [id, setId] = useState(0);
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
@@ -25,6 +27,7 @@ const CandidatesForm = ({ createCandidate,updateCandidate, selectedDepartmentId,
             setSalary(data.salary || '');
             setDepartmentCode(data.departmentCode || '');
             setDepartmentId(data.departmentId || '');
+
         } else {
             // Reset form when creating a new entry
             setId(0);
@@ -40,17 +43,52 @@ const CandidatesForm = ({ createCandidate,updateCandidate, selectedDepartmentId,
     }, [data]);
 
     const handleSubmit = () => {
+        if (!departmentCode) {
+            // alert('Department and Department Code cannot be empty');
+            <Stack sx={{ width: '100%' }} spacing={2}>
+                <Alert severity="warning">Department and Department Code cannot be empty</Alert>
+            </Stack>
+            return;
+        }
+
         const numericAge = parseInt(age, 10) || 0;
         const numericSalary = parseInt(salary, 10) || 0;
 
         createCandidate({ firstName, lastName, email, dob, age: numericAge, salary: numericSalary });
+
+        setId(0);
+        setFirstName('');
+        setLastName('');
+        setEmail('');
+        setDob(null);
+        setAge('');
+        setSalary('');
+        setDepartmentCode('');
+        setDepartmentId('');
+        setSelectedDepartmentId('');
     };
 
     const handleUpdate = () => {
+        if (!departmentCode) {
+            alert('Department and Department Code cannot be empty');
+            return;
+        }
+
         const numericAge = parseInt(age, 10) || 0;
         const numericSalary = parseInt(salary, 10) || 0;
 
         updateCandidate({ id, firstName, lastName, email, dob, age: numericAge, salary: numericSalary });
+
+        setId(0);
+        setFirstName('');
+        setLastName('');
+        setEmail('');
+        setDob(null);
+        setAge('');
+        setSalary('');
+        setDepartmentCode('');
+        setDepartmentId('');
+        setSelectedDepartmentId('');
     };
 
     return (
@@ -122,6 +160,7 @@ const CandidatesForm = ({ createCandidate,updateCandidate, selectedDepartmentId,
                 <CustomDatePicker
                     dob={dob}
                     setDob={setDob}
+                    setAge={setAge}
                 />
             </Grid>
             <Grid item xs={1} sm={1}>
@@ -150,7 +189,8 @@ const CandidatesForm = ({ createCandidate,updateCandidate, selectedDepartmentId,
             </Grid>
             <Grid item xs={1} sm={1}>
                 <DepartmentSelect
-                    selectedDepartmentId={selectedDepartmentId}
+                    // selectedDepartmentId={departmentId} 
+                    selectedDepartmentId={selectedDepartmentId || departmentId}
                     setSelectedDepartmentId={setSelectedDepartmentId}
                     setDepartmentCode={setDepartmentCode}
                 />
@@ -164,7 +204,7 @@ const CandidatesForm = ({ createCandidate,updateCandidate, selectedDepartmentId,
                     onChange={e => setDepartmentCode(e.target.value)}
                     label="Department Code"
                     variant="outlined"
-                    sx={{ marginTop: '8px', display: 'none' }}
+                    sx={{ marginTop: '8px' }}
                 />
             </Grid>
             <Button
@@ -180,8 +220,7 @@ const CandidatesForm = ({ createCandidate,updateCandidate, selectedDepartmentId,
                         backgroundColor: '#00c6e6',
                     },
                 }}
-                // onClick={isEdit ? handleUpdate : handleSubmit}.
-                onClick={handleUpdate}
+                onClick={isEdit ? handleUpdate : handleSubmit}
             >
                 {isEdit ? 'Update' : 'Add'}
             </Button>
