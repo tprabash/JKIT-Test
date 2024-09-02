@@ -29,6 +29,7 @@ export default function CustomDatePicker({ dob, setDob, setAge }) {
                     value={dob ? dayjs(dob) : null}
                     onChange={handleDateChange}
                     renderInput={(params) => <TextField {...params} />}
+                    sx={{ backgroundColor: 'rgba(255, 255, 255, 0.09)'}}
                 />
             </DemoContainer>
         </LocalizationProvider>

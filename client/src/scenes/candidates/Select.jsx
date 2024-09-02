@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Axios from 'axios';
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 
-export default function DepartmentSelect({ selectedDepartmentId, setSelectedDepartmentId, setDepartmentCode }) {
+export default function DepartmentSelect({ value, onChange, setDepartmentCode }) {
     const [departments, setDepartments] = useState([]);
 
     useEffect(() => {
@@ -10,13 +10,13 @@ export default function DepartmentSelect({ selectedDepartmentId, setSelectedDepa
     }, []);
 
     useEffect(() => {
-        if (departments.length > 0 && selectedDepartmentId) {
-            const selectedDepartment = departments.find(department => department.id === selectedDepartmentId);
+        if (departments.length > 0 && value) {
+            const selectedDepartment = departments.find(department => department.id === value);
             if (selectedDepartment) {
                 setDepartmentCode(selectedDepartment.departmentCode);
             }
         }
-    }, [selectedDepartmentId, departments]);
+    }, [value, departments]);
 
     const getDepartments = () => {
         Axios.get('https://localhost:7032/api/Candidate/GetDepartent')
@@ -30,23 +30,26 @@ export default function DepartmentSelect({ selectedDepartmentId, setSelectedDepa
 
     const handleDepartmentChange = (event) => {
         const selectedId = event.target.value;
-        setSelectedDepartmentId(selectedId);
+        onChange(selectedId);
 
         const selectedDepartment = departments.find(department => department.id === selectedId);
         if (selectedDepartment) {
             setDepartmentCode(selectedDepartment.departmentCode);
+            console.log(selectedDepartment.id);
+        } else {
+            setDepartmentCode('');
         }
     };
 
     return (
-        <FormControl fullWidth sx={{ marginTop: '8px' }}>
+        <FormControl fullWidth sx={{ backgroundColor: 'rgba(255, 255, 255, 0.09)' }}>
             <InputLabel id="departmentName-label">Department</InputLabel>
             <Select
                 labelId="departmentName-label"
                 id="department-select"
                 label="Department"
                 onChange={handleDepartmentChange}
-                value={selectedDepartmentId || ''} 
+                value={value || ''}
             >
                 {departments.map((department) => (
                     <MenuItem key={department.id} value={department.id}>

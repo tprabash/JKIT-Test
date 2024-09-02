@@ -3,7 +3,10 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Ensure the appsettings.json file is loaded
+builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+
+// Add services to the container
 builder.Services.AddControllers();
 
 // Configure CORS policy
@@ -22,8 +25,23 @@ builder.Services.AddCors(options =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddDbContext<CandidateDbContext>(options => 
-    options.UseSqlServer(builder.Configuration.GetConnectionString("CandidateDatabase")));
+// Retrieve connection string
+var connectionString = builder.Configuration.GetConnectionString("CandidateDatabase");
+
+// Log the connection string for debugging purposes
+Console.WriteLine($"Connection String: {connectionString}");
+
+if (string.IsNullOrEmpty(connectionString))
+{
+    throw new ArgumentNullException("Connection string 'CandidateDatabase' is null or empty.");
+}
+
+// Configure DbContexts
+builder.Services.AddDbContext<DepartmentDbContext>(options =>
+    options.UseSqlServer(connectionString));
+
+builder.Services.AddDbContext<CandidateDbContext>(options =>
+    options.UseSqlServer(connectionString));
 
 var app = builder.Build();
 
