@@ -1,17 +1,34 @@
-import './App.css';
-import { useNavigate } from 'react-router-dom';
+import { useState } from "react";
+import { Routes, Route } from "react-router-dom";
+import Topbar from "./scenes/layout/Topbar";
+import Sidebar from "./scenes/layout/Sidebar";
+import Dashboard from "./scenes/dashboard";
+import { CssBaseline, ThemeProvider } from "@mui/material";
+import { ColorModeContext, useMode } from "./theme";
+import Candidates from "./scenes/candidates";
+import Departments from "./scenes/departments";
 
 function App() {
-
-  const navigate = useNavigate();
+  const [theme, colorMode] = useMode();
+  const [isSidebar, setIsSidebar] = useState(true);
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <h1>Welcome To John Keells UMS</h1>
-        <button className= "user-button" onClick={() => navigate('/candidates')}>Users</button>
-      </header>
-    </div>
+    <ColorModeContext.Provider value={colorMode}>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <div className="app">
+          <Sidebar isSidebar={isSidebar} />
+          <main className="content">
+            <Topbar setIsSidebar={setIsSidebar} />
+            <Routes>
+              <Route path="/" element={<Dashboard />} />
+              <Route path="/candidate" element={<Candidates />} />
+              <Route path="/department" element={<Departments />} />
+            </Routes>
+          </main>
+        </div>
+      </ThemeProvider>
+    </ColorModeContext.Provider>
   );
 }
 
